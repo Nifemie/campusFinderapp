@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'signup_step2.dart';
 
+
 class SignUpStep1 extends StatefulWidget {
   const SignUpStep1({super.key});
 
@@ -19,7 +20,7 @@ class _SignUpStep1State extends State<SignUpStep1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // ✅ Set background to white
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -49,11 +50,15 @@ class _SignUpStep1State extends State<SignUpStep1> {
                     ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          // ✅ Navigate to Step 2
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const SignUpStep2(),
+                              builder: (context) => SignUpStep2(
+                                fullName: _nameController.text.trim(), // Add this line
+                                email: _emailController.text.trim(),
+                                password: _passwordController.text.trim(),
+                              ),
+
                             ),
                           );
                         }

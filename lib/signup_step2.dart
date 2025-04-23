@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
 import 'login_page.dart';
-import 'signup_step1.dart';
+import '../services/sign_logic.dart'; // Make sure this path is correct
 
 class SignUpStep2 extends StatefulWidget {
-  const SignUpStep2({super.key});
+  final String fullName;
+  final String email;
+  final String password;
+
+  const SignUpStep2({
+    super.key,
+    required this.fullName,
+    required this.email,
+    required this.password,
+  });
 
   @override
   State<SignUpStep2> createState() => _SignUpStep2State();
@@ -11,6 +20,7 @@ class SignUpStep2 extends StatefulWidget {
 
 class _SignUpStep2State extends State<SignUpStep2> {
   final _formKey = GlobalKey<FormState>();
+  final _signUpController = SignUpController();
 
   final TextEditingController _departmentController = TextEditingController();
   final TextEditingController _levelController = TextEditingController();
@@ -21,10 +31,7 @@ class _SignUpStep2State extends State<SignUpStep2> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: const Text("Step 2: Additional Info"),
-      ),
+      appBar: AppBar(title: const Text("Step 2: Additional Info")),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
@@ -38,36 +45,30 @@ class _SignUpStep2State extends State<SignUpStep2> {
                 const SizedBox(height: 16),
                 _buildTextField(_matricController, 'Matric Number'),
                 const SizedBox(height: 16),
-                _buildTextField(_phoneController, 'Phone Number', inputType: TextInputType.phone),
+                _buildTextField(
+                  _phoneController,
+                  'Phone Number',
+                  inputType: TextInputType.phone,
+                ),
                 const SizedBox(height: 24),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      // Show success message
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("Account created successfully!")),
+                      await _signUpController.registerUser(
+                        context: context,
+                        fullName: widget.fullName,
+                        email: widget.email,
+                        phone: _phoneController.text.trim(),
+                        password: widget.password,
                       );
-
-                      // Wait 2 seconds, then navigate to LoginPage using MaterialPageRoute
-                      Future.delayed(const Duration(seconds: 2), () {
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const LoginPage(),
-                          ),
-                              (route) => false,
-                        );
-                      });
                     }
                   },
-
-
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.lime,
                     minimumSize: const Size(double.infinity, 50),
                   ),
                   child: const Text("Complete Sign Up"),
-                )
+                ),
               ],
             ),
           ),
@@ -83,16 +84,10 @@ class _SignUpStep2State extends State<SignUpStep2> {
       keyboardType: inputType,
       decoration: InputDecoration(
         labelText: labelText,
-        filled: true,
-        fillColor: Colors.white,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
       ),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter $labelText';
-        }
-        return null;
-      },
+      validator: (value) =>
+      value == null || value.isEmpty ? 'Please enter $labelText' : null,
     );
   }
 }

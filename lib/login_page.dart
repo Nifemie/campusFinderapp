@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'signup_step1.dart';
+import 'page1.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -49,6 +50,12 @@ class LoginPage extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                          builder: (context) => const CampusFinderScreen(),
+                      ),
+                      );
                       // handle login logic
                     },
                     style: ElevatedButton.styleFrom(

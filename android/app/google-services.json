@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "960823061462",
+    "firebase_url": "https://campus-finder-bc900-default-rtdb.firebaseio.com",
+    "project_id": "campus-finder-bc900",
+    "storage_bucket": "campus-finder-bc900.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960823061462:android:83f0ce01b225f4a35b5277",
+        "android_client_info": {
+          "package_name": "com.example.campusfinder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTI5OxAqocLtB-IWyE1qTdRndCHWl7Rbs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
